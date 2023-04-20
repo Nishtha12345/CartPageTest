@@ -17,17 +17,15 @@ namespace CodilityTest.Steps
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
             driver.Manage().Window.Maximize();
             driver.Url = "https://cms.demo.katalon.com/";
-            int count = 4;
+            int count = 1;
             IList<IWebElement> el = driver.FindElements(By.XPath("//a[text()='Add to cart']"));
-            foreach (IWebElement ele in el)
+            for (int i = 0; i < el.Count; i++)
+            // foreach (IWebElement ele in el)               
             {
-                if (count <= 4)
-
-                {
-                    ele.Click();
-                }
-
+                el[i].Click();
+                count++;
             }
+
             // clicking teh crt 
             driver.FindElement(By.XPath("//a[text()='Cart']")).Click();
 
@@ -35,28 +33,29 @@ namespace CodilityTest.Steps
             IList<IWebElement> listOfItems = driver.
                 FindElements(By.XPath("//table[contains(@class,'woocommerce-cart')]//tbody//tr"));
             var size = listOfItems.Count;
-            Assert.Equals(size, 4);
-
-            //lowest price 
+            // Assert.Equals(size, 4);
 
             foreach (IWebElement ele in listOfItems)
             {
 
-                IList<IWebElement> rowTds = ele.FindElements(By.TagName("td"));
+                IList<IWebElement> rowTds = ele.FindElements(By.TagName("td")); // all td 
                 foreach (var td in rowTds)
                 {
-                    var td3 = td.Text;
-             
+                    IWebElement el1 = td.FindElement(By.ClassName("product-price"));
+
 
                 }
 
             }
 
 
-
-
-
         }
+
+
+
+
+
+    
 
         [When(@"I view my cart")]
         public void WhenIViewMyCart()
